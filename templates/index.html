@@ -456,7 +456,7 @@
 
                 questionElement.innerHTML = `
                     <div class="card-body">
-                        <div class="icon-container" style="position: absolute; top: 10px; ${trashIconPosition}: 10px; display: flex; gap: 10px;">
+                        <div class="icon-container" style="position: absolute; top: 10px; ${trashIconPosition}: 10px; display: flex; gap: 20px;">
                             <i class="fas fa-lightbulb lamp-icon hidden" data-index="${index}" style="cursor: pointer; color: #ffc107;"></i>
                             <i class="fas fa-trash-alt remove-icon" data-index="${index}" style="cursor: pointer; color: #dc3545;"></i>
                         </div>
@@ -643,6 +643,7 @@
         let isDraggingRight = false;
 
         let maxPages = 100; // Default max value
+
         // Function to update slider positions and values
         const updateSlider = () => {
             const sliderRect = slider.getBoundingClientRect();
@@ -665,13 +666,13 @@
             endPageValue.textContent = endPage;
         };
 
-        // Function to handle dragging
-        const handleDrag = (e) => {
+        // Function to handle dragging (for both mouse and touch events)
+        const handleDrag = (clientX) => {
             const sliderRect = slider.getBoundingClientRect();
             const min = 1;
 
-            // Calculate the new position based on mouse movement
-            let newPosition = ((e.clientX - sliderRect.left) / sliderRect.width) * (maxPages - min) + min;
+            // Calculate the new position based on mouse or touch movement
+            let newPosition = ((clientX - sliderRect.left) / sliderRect.width) * (maxPages - min) + min;
             newPosition = Math.max(min, Math.min(maxPages, Math.round(newPosition)));
 
             if (isDraggingLeft) {
@@ -685,7 +686,7 @@
             updateSlider();
         };
 
-        // Event listeners for dragging
+        // Event listeners for mouse dragging
         leftThumb.addEventListener('mousedown', () => {
             isDraggingLeft = true;
         });
@@ -701,9 +702,43 @@
 
         document.addEventListener('mousemove', (e) => {
             if (isDraggingLeft || isDraggingRight) {
-                handleDrag(e);
+                handleDrag(e.clientX);
             }
         });
+
+        // Event listeners for touch dragging
+        leftThumb.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Prevent default touch behavior
+            isDraggingLeft = true;
+        });
+
+        leftThumb.addEventListener('touchmove', (e) => {
+            if (isDraggingLeft) {
+                handleDrag(e.touches[0].clientX);
+            }
+        });
+
+        leftThumb.addEventListener('touchend', () => {
+            isDraggingLeft = false;
+        });
+
+        rightThumb.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Prevent default touch behavior
+            isDraggingRight = true;
+        });
+
+        rightThumb.addEventListener('touchmove', (e) => {
+            if (isDraggingRight) {
+                handleDrag(e.touches[0].clientX);
+            }
+        });
+
+        rightThumb.addEventListener('touchend', () => {
+            isDraggingRight = false;
+        });
+
+        // Initialize slider
+        updateSlider();
 
         // Function to get the number of pages in the uploaded PDF
         const getNumberOfPages = async (file) => {
