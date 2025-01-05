@@ -158,4 +158,4 @@ def view_quiz(quiz_id):
     return render_template('flashcards.html', questions=json.loads(quiz_data))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False, host='0.0.0.0', port=8000)
