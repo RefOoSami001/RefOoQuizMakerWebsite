@@ -1,198 +1,437 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flashcards</title>
+    <title>RefOo Quiz Maker</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/webp" href="https://images.genai.works/featured_image_92ec8d0e6a.webp?width=600&height=600&quality=50">
+
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Cairo Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <!-- Custom CSS -->
     <style>
         body {
-            background-color: #f8f9fa;
+            margin: 0;
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a, #2c3e50);
+            color: #fff;
+            overflow-x: hidden;
+            padding-top: 70px; /* Add padding to body to account for fixed navbar */
         }
-        .container {
-            max-width: 800px;
-            margin-top: 50px;
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
         }
+
+        /* Navbar Styling */
+        .navbar {
+            background: rgba(0, 0, 0, 0.462);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: fixed; /* Make navbar fixed */
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff !important;
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%; /* Make logo rounded */
+            margin-right: 10px;
+        }
+
+        .navbar-brand:hover {
+            color: #ffffff !important;
+        }
+
+        .navbar .btn-create-quiz {
+            background: #ffc107;
+            color: #1a1a1a;
+            border: none;
+            border-radius: 25px;
+            padding: 6px 16px; /* Smaller button */
+            font-weight: 600;
+            transition: background 0.3s ease, transform 0.2s ease;
+            font-size: 0.9rem; /* Smaller font size */
+        }
+
+        .navbar .btn-create-quiz:hover {
+            background: #ffca28;
+            transform: translateY(-2px);
+        }
+
+        .flashcard-section {
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            z-index: 1;
+        }
+
         .card {
             margin-bottom: 20px;
             border: none;
+            background: rgba(255, 255, 255, 0.071);
+            backdrop-filter: blur(10px);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out;
+            border-radius: 15px;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in-out forwards;
+            border: 1px solid #ffc9288d;
         }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
         .card-body {
             padding: 20px;
+            position: relative;
         }
+
         .card-title {
             font-size: 18px;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 10px;
+            margin-top: 10px;
+            color: #fff;
         }
-        .card-text {
-            font-size: 16px;
-            color: #555;
-        }
-        .btn-primary {
-            background-color: #0d6efd;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-        }
-        .btn-primary:hover {
-            background-color: #0b5ed7;
-        }
+
         .answer-option {
             margin: 5px 0;
             padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
             cursor: pointer;
+            transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
         }
+
+        .answer-option:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: #ffc92858;
+            transform: translateY(-2px);
+        }
+
+        .answer-option.disabled {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
         .answer-option.selected {
-            background-color: #e9ecef;
+            background-color: rgba(255, 255, 255, 0.3);
         }
+
         .answer-option.correct {
-            background-color: #d4edda;
-            border-color: #c3e6cb;
+            background-color: #a8f0b991;
+            border-color: #64e582;
+            color: #000;
         }
+
         .answer-option.incorrect {
-            background-color: #f8d7da;
-            border-color: #f5c6cb;
+            background-color: #f1889183;
+            border-color: #ce404e;
+            color: #000;
         }
-        .feedback {
-            margin-top: 10px;
-            font-weight: bold;
+
+        .lamp-icon {
+            font-size: 1.1rem;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+            color: #ffffff;
         }
-        .navigation-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
+
+        .lamp-icon.visible {
+            visibility: visible;
         }
-        .progress {
-            margin-bottom: 20px;
+
+        .popup {
+            position: fixed;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
-        #retryButton {
-            display: none;
-            margin-top: 10px;
+
+        .popup.visible {
+            opacity: 1;
+        }
+
+        .score-container {
+            position: fixed;
+            bottom: 50px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.481);
+            padding: 5px 10px;
+            border-radius: 15px;
+            color: #fff;
+            font-size: 1.2rem;
+            z-index: 1000;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.329);
+            color: #fff;
+            font-size: 0.9rem;
+            z-index: 1;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1 class="text-center mb-4">Flashcards</h1>
-        <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+    <!-- Particles Background -->
+    <div id="particles-js"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <img src="https://images.genai.works/featured_image_92ec8d0e6a.webp?width=600&height=600&quality=50" alt="Logo"> <!-- Replace with your logo -->
+                <span style="font-size: 0.8rem;">RefOo Quiz Maker</span> <!-- Smaller text -->
+            </a>
+            <div class="d-flex">
+                <a href="/" class="btn btn-create-quiz">
+                    <i class="fas fa-plus"></i> Create Quiz
+                </a>
+            </div>
         </div>
-        <div id="flashcardContainer">
-            <!-- Flashcards will be dynamically inserted here -->
-        </div>
-        <div class="navigation-buttons">
-            <button id="prevButton" class="btn btn-secondary" disabled>Previous</button>
-            <button id="nextButton" class="btn btn-primary">Next</button>
-        </div>
+    </nav>
+
+    <!-- Score Container -->
+    <div class="score-container">
+        النقاط: <span id="score">0</span> / <span id="totalQuestions">0</span>
     </div>
+
+    <!-- Flashcard Section -->
+    <div class="flashcard-section">
+        <div id="flashcardContainer"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        Made By RefOo Sami❤️ 2025
+    </footer>
 
     <!-- Bootstrap 5 JS (Optional) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <!-- Custom JavaScript -->
     <script>
-        let currentQuestionIndex = 0;
-        let selectedAnswer = null;
+        // Initialize Particles.js
+        particlesJS('particles-js', {
+            "particles": {
+                "number": {
+                    "value": 100,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": ["#ff0000", "#00ff00", "#0000ff", "#ffff00", "#ff00ff", "#00ffff", "#ffcc00", "#ffdd00", "#ffee00", "#ffaa00"]
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    }
+                },
+                "opacity": {
+                    "value": 0.6,
+                    "anim": {
+                        "enable": true,
+                        "speed": 1,
+                        "opacity_min": 0.3
+                    }
+                },
+                "size": {
+                    "value": 4,
+                    "random": true
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 1,
+                    "direction": "bottom",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out"
+                }
+            },
+            "interactivity": {
+                "events": {
+                    "onhover": {
+                        "enable": false
+                    },
+                    "onclick": {
+                        "enable": false
+                    }
+                }
+            },
+            "retina_detect": true
+        });
 
-        function renderQuestion() {
-            const question = questions[currentQuestionIndex];
+        // Initialize score and total questions
+        let score = 0;
+        let totalQuestions = 0;
+        const scoreElement = document.getElementById('score');
+        const totalQuestionsElement = document.getElementById('totalQuestions');
+
+        // Function to shuffle array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Function to render all questions
+        function renderQuestions() {
             const flashcardContainer = document.getElementById('flashcardContainer');
-            const progressBar = document.querySelector('.progress-bar');
+            const questions = JSON.parse('{{ questions | tojson | safe }}');
+            totalQuestions = questions.length;
+            totalQuestionsElement.textContent = totalQuestions;
 
-            // Update progress bar
-            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
-            progressBar.style.width = `${progress}%`;
-            progressBar.setAttribute('aria-valuenow', progress);
+            questions.forEach((question, index) => {
+                // Shuffle answer options
+                const shuffledOptions = shuffleArray(question.answerOptions);
+                const correctAnswerIndex = shuffledOptions.indexOf(question.correctAnswer);
 
-            // Render question and answer options
-            flashcardContainer.innerHTML = `
-                <div class="card">
+                const questionElement = document.createElement('div');
+                questionElement.classList.add('card');
+                questionElement.style.animationDelay = `${index * 0.2}s`;
+
+                questionElement.innerHTML = `
                     <div class="card-body">
-                        <h5 class="card-title">Question ${currentQuestionIndex + 1}: ${question.questionText}</h5>
-                        <div id="answerOptions">
-                            ${question.answerOptions.map((option, index) => `
-                                <div class="answer-option" data-index="${index}">${option}</div>
+                        <div class="icon-container" style="position: absolute; top: 10px; right: 10px; display: flex; gap: 20px;">
+                            <i class="fa-regular fa-lightbulb lamp-icon hidden" style="cursor: pointer;"></i>
+                        </div>
+                        <h5 class="card-title">${question.questionText}</h5>
+                        <div class="answer-options">
+                            ${shuffledOptions.map((option, i) => `
+                                <div class="answer-option" data-correct="${i === correctAnswerIndex}">
+                                    ${option}
+                                </div>
                             `).join('')}
                         </div>
-                        <div class="feedback" id="feedback"></div>
-                        <button id="retryButton" class="btn btn-secondary mt-3">Retry Question</button>
                     </div>
-                </div>
-            `;
+                `;
+                flashcardContainer.appendChild(questionElement);
 
-            // Add event listeners to answer options
-            document.querySelectorAll('.answer-option').forEach(option => {
-                option.addEventListener('click', () => {
-                    if (!option.classList.contains('correct') && !option.classList.contains('incorrect')) {
-                        selectedAnswer = option.textContent;
-                        document.querySelectorAll('.answer-option').forEach(o => o.classList.remove('selected'));
+                // Add event listeners to answer options
+                const answerOptions = questionElement.querySelectorAll('.answer-option');
+                answerOptions.forEach(option => {
+                    option.addEventListener('click', () => {
+                        const isCorrect = option.getAttribute('data-correct') === 'true';
+
+                        // Disable all answer options
+                        answerOptions.forEach(o => {
+                            o.classList.add('disabled');
+                            o.style.pointerEvents = 'none';
+                        });
+
+                        // Highlight the selected option
                         option.classList.add('selected');
-                        validateAnswer();
-                    }
+
+                        // Highlight correct/incorrect answers
+                        if (isCorrect) {
+                            option.classList.add('correct');
+                            score += 1;
+                            scoreElement.textContent = score;
+
+                            // Trigger celebratory confetti
+                            confetti({
+                                particleCount: 250,
+                                spread: 70,
+                                origin: { y: 0.6 },
+                            });
+                        } else {
+                            option.classList.add('incorrect');
+
+                            // Highlight the correct answer
+                            answerOptions.forEach(o => {
+                                if (o.getAttribute('data-correct') === 'true') {
+                                    o.classList.add('correct');
+                                }
+                            });
+                        }
+
+                        // Show the lamp icon
+                        const lampIcon = questionElement.querySelector('.lamp-icon');
+                        lampIcon.classList.remove('hidden');
+                        lampIcon.classList.add('visible');
+                    });
+                });
+
+                // Add event listener to lamp icon
+                const lampIcon = questionElement.querySelector('.lamp-icon');
+                lampIcon.addEventListener('click', () => {
+                    const explanation = question.explanation;
+
+                    // Create a pop-up element
+                    const popup = document.createElement('div');
+                    popup.classList.add('popup');
+                    popup.innerHTML = `<p>${explanation}</p>`;
+                    document.body.appendChild(popup);
+
+                    // Show the pop-up
+                    setTimeout(() => {
+                        popup.classList.add('visible');
+                    }, 10);
+
+                    // Hide the pop-up after 3 seconds
+                    setTimeout(() => {
+                        popup.classList.remove('visible');
+                        setTimeout(() => {
+                            document.body.removeChild(popup);
+                        }, 300);
+                    }, 3000);
                 });
             });
-
-            // Add event listener to retry button
-            const retryButton = document.getElementById('retryButton');
-            retryButton.addEventListener('click', () => {
-                document.querySelectorAll('.answer-option').forEach(option => {
-                    option.classList.remove('correct', 'incorrect', 'selected');
-                });
-                document.getElementById('feedback').textContent = '';
-                retryButton.style.display = 'none';
-                selectedAnswer = null;
-            });
-
-            // Update navigation buttons
-            document.getElementById('prevButton').disabled = currentQuestionIndex === 0;
-            document.getElementById('nextButton').disabled = currentQuestionIndex === questions.length - 1;
         }
 
-        function validateAnswer() {
-            const question = questions[currentQuestionIndex];
-            const feedback = document.getElementById('feedback');
-            const answerOptions = document.querySelectorAll('.answer-option');
-            const retryButton = document.getElementById('retryButton');
-
-            answerOptions.forEach(option => {
-                if (option.textContent === question.correctAnswer) {
-                    option.classList.add('correct');
-                } else if (option.textContent === selectedAnswer) {
-                    option.classList.add('incorrect');
-                }
-            });
-
-            if (selectedAnswer === question.correctAnswer) {
-                feedback.textContent = 'Correct!';
-                feedback.style.color = 'green';
-                retryButton.style.display = 'none';
-            } else {
-                feedback.textContent = `Incorrect. The correct answer is: ${question.correctAnswer}`;
-                feedback.style.color = 'red';
-                retryButton.style.display = 'block';
-            }
-        }
-
-        function navigate(direction) {
-            if (direction === 'next' && currentQuestionIndex < questions.length - 1) {
-                currentQuestionIndex++;
-            } else if (direction === 'prev' && currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-            }
-            renderQuestion();
-        }
-
-        // Event listeners for navigation buttons
-        document.getElementById('prevButton').addEventListener('click', () => navigate('prev'));
-        document.getElementById('nextButton').addEventListener('click', () => navigate('next'));
-
-        // Initial render
-        renderQuestion();
+        // Render questions on page load
+        renderQuestions();
     </script>
 </body>
 </html>
