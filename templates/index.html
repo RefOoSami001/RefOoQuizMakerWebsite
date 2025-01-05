@@ -21,11 +21,10 @@
         body {
             margin: 0;
             font-family: 'Cairo', sans-serif;
-            background: linear-gradient(135deg, #1a1a1a, #2c3e50);
+            background: linear-gradient(135deg, #1e1e2f, #2a2a40);
             color: #fff;
             overflow-x: hidden;
             padding-top: 70px; /* Add padding to body to account for fixed navbar */
-
         }
 
         #particles-js {
@@ -39,132 +38,142 @@
 
         /* Navbar Styling */
         .navbar {
-            background: rgba(0, 0, 0, 0.462);
+            background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(10px);
             padding: 0.5rem 1rem;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            position: fixed; /* Make navbar fixed */
+            position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 1000;
+            display: flex;
+            justify-content: flex-start; /* Align content to the left */
+            direction: ltr; /* Ensure content flows from left to right */
         }
 
         .navbar-brand {
-            direction: ltr;
             display: flex;
             align-items: center;
-            font-size: 1.0rem; /* Smaller text */
+            font-size: 1rem;
             font-weight: 700;
             color: #ffffff !important;
-            width: 100%; /* Ensure it takes full width */
-            justify-content: flex-start; /* Space between logo and text */
+            margin-right: auto; /* Push logo and text to the left */
         }
 
         .navbar-brand img {
-            height: 30px; /* Smaller logo */
-            width: 30px; /* Smaller logo */
-            border-radius: 50%; /* Make logo rounded */
-            margin-right: 10px;
-        }
-
-        .navbar-brand:hover {
-            color: #ffffff !important;
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            margin-right: 10px; /* Space between logo and text */
         }
 
         /* Form Section Styles */
         .form-section {
             padding: 20px;
-            background: rgba(255, 255, 255, 0.071);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             border-radius: 15px;
-            border: 1px solid rgba(255, 202, 40, 0.5); /* Adjusted border color */
-            margin: 10px;
-            flex: 1;
+            border: 1px solid rgba(255, 202, 40, 0.5);
+            margin: 10px auto;
+            max-width: 800px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: block;
         }
 
         .form-control {
-            border-radius: 5px;
+            border-radius: 8px;
             padding: 10px;
-            background-color: rgba(255, 255, 255, 0.1); /* Light background for inputs */
-            color: #fff; /* White text */
-            border: 1px solid rgba(255, 202, 40, 0.5); /* Adjusted border color */
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 202, 40, 0.5);
+            transition: all 0.3s ease;
         }
 
         .form-control:focus {
-            border-color: #FFCA28; /* Focus border color */
-            box-shadow: 0 0 0 0.25rem rgba(255, 202, 40, 0.25); /* Focus shadow */
+            border-color: #FFCA28;
+            box-shadow: 0 0 0 0.25rem rgba(255, 202, 40, 0.25);
         }
 
         .btn-primary {
-            background-color: #FFCA28; /* Primary button color */
+            background-color: #FFCA28;
             border: none;
             padding: 10px 20px;
             font-size: 16px;
-            border-radius: 5px;
-            color: #1a1a1a; /* Dark text for contrast */
+            border-radius: 8px;
+            color: #1a1a1a;
+            transition: background-color 0.3s ease;
         }
 
         .btn-primary:hover {
-            background-color: #e6b425; /* Slightly darker on hover */
+            background-color: #e6b425;
         }
 
         .btn-primary:disabled {
-            background-color: rgba(255, 202, 40, 0.5); /* Disabled state */
+            background-color: rgba(255, 202, 40, 0.5);
             cursor: not-allowed;
         }
 
         .btn-secondary {
-            background-color: rgba(255, 202, 40, 0.1); /* Secondary button color */
-            border: 1px solid #FFCA28; /* Border color */
-            color: #FFCA28; /* Text color */
+            background-color: rgba(255, 202, 40, 0.1);
+            border: 1px solid #FFCA28;
+            color: #FFCA28;
+            transition: all 0.3s ease;
         }
 
         .btn-secondary.active {
-            background-color: #FFCA28; /* Active state */
-            color: #1a1a1a; /* Dark text for contrast */
+            background-color: #FFCA28;
+            color: #1a1a1a;
         }
 
         .btn-secondary:hover {
-            background-color: rgba(255, 202, 40, 0.2); /* Hover state */
+            background-color: rgba(255, 202, 40, 0.2);
         }
 
         .input-toggle {
             display: flex;
             gap: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 1rem;
         }
 
         .input-toggle .btn {
             flex: 1;
+            padding: 10px;
+            font-size: 14px;
         }
 
         .num-questions-buttons {
             display: flex;
             gap: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 1rem;
         }
 
         .num-questions-buttons .btn {
             flex: 1;
+            padding: 10px;
+            font-size: 14px;
         }
 
         .slider-container {
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
         }
 
         .slider {
             width: 100%;
             height: 5px;
-            background: rgba(255, 202, 40, 0.3); /* Slider track color */
+            background: rgba(255, 202, 40, 0.3);
             border-radius: 5px;
             position: relative;
         }
 
         .slider .track {
             height: 5px;
-            background: #FFCA28; /* Slider track active color */
+            background: #FFCA28;
             position: absolute;
             border-radius: 5px;
         }
@@ -172,7 +181,7 @@
         .slider .thumb {
             width: 20px;
             height: 20px;
-            background: #FFCA28; /* Slider thumb color */
+            background: #FFCA28;
             border-radius: 50%;
             position: absolute;
             top: -8px;
@@ -197,11 +206,10 @@
         }
 
         /* Footer Styles */
-        /* Footer Styles */
         .simple-footer {
             text-align: center;
             padding: 0.5rem;
-            background: rgba(0, 0, 0, 0.329);
+            background: rgba(0, 0, 0, 0.5);
             color: #fff;
             font-size: 0.9rem;
             position: fixed;
@@ -211,23 +219,125 @@
             z-index: 1000;
         }
 
-
         .footer-text {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 600;
             margin: 0;
         }
+
         .form-select {
-            background-color: rgba(255, 255, 255, 0.1); /* Light background for inputs */
-            color: #fff; /* White text */
-            border: 1px solid rgba(255, 202, 40, 0.5); /* Adjusted border color */
-            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 202, 40, 0.5);
+            border-radius: 8px;
             padding: 10px;
+            transition: all 0.3s ease;
         }
 
         .form-select:focus {
-            border-color: #FFCA28; /* Focus border color */
-            box-shadow: 0 0 0 0.25rem rgba(255, 202, 40, 0.25); /* Focus shadow */
+            border-color: #FFCA28;
+            box-shadow: 0 0 0 0.25rem rgba(255, 202, 40, 0.25);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .navbar-brand {
+                font-size: 0.9rem;
+            }
+
+            .form-section {
+                padding: 15px;
+                margin: 10px;
+            }
+
+            .form-control, .form-select {
+                padding: 8px;
+            }
+
+            .btn-primary, .btn-secondary {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+
+            .input-toggle .btn, .num-questions-buttons .btn {
+                padding: 8px;
+                font-size: 12px;
+            }
+
+            .footer-text {
+                font-size: 12px;
+            }
+        }
+        .navbar {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between; /* Space between logo and button */
+            align-items: center; /* Center items vertically */
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #ffffff !important;
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            margin-right: 10px; /* Space between logo and text */
+        }
+
+        /* Custom CSS for Contact Button */
+        .navbar .btn-outline-light {
+            margin-left: auto; /* Push the button to the right */
+            padding: 8px 20px; /* Adjust padding */
+            font-size: 13px; /* Adjust font size */
+            border-radius: 20px; /* Rounded corners */
+            transition: all 0.3s ease; /* Smooth hover effect */
+            display: flex;
+            align-items: center; /* Center the icon and text vertically */
+        }
+
+        /* Icon Styling */
+        .navbar .btn-outline-light .icon-container {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 70px; /* Size of the rounded background */
+            height: 70px; /* Size of the rounded background */
+            background-color: rgba(255, 255, 255, 0.1); /* Light background for the icon */
+            border-radius: 50%; /* Make it circular */
+            margin-right: 8px; /* Space between icon and text */
+        }
+
+        .navbar .btn-outline-light i {
+            font-size: 20px; /* Increase icon size */
+            color: #FFCA28; /* Icon color */
+        }
+
+        .navbar .btn-outline-light:hover {
+            background-color: #FFCA28; /* Change background on hover */
+            color: #1a1a1a; /* Change text color on hover */
+            border-color: #FFCA28; /* Change border color on hover */
+        }
+
+        .navbar .btn-outline-light:hover .icon-container {
+            background-color: rgba(255, 255, 255, 0.2); /* Change icon background on hover */
+        }
+
+        .navbar .btn-outline-light:hover i {
+            color: #1a1a1a; /* Change icon color on hover */
         }
     </style>
 </head>
@@ -237,82 +347,90 @@
 
     <!-- Navbar -->
     <nav class="navbar">
-        <span class="navbar-brand">
+        <span class="navbar-brand" dir="ltr">
             <img src="https://images.genai.works/featured_image_92ec8d0e6a.webp?width=600&height=600&quality=50" alt="Logo">
-            <span>RefOo Quiz Maker</span> <!-- Wrap text in a span for better control -->
+            <span>RefOo Quiz Maker</span>
         </span>
+        <!-- Contact Button with Telegram Icon -->
+        <a href="https://t.me/your_telegram_username" class="btn btn-outline-light" target="_blank">
+            <i class="fab fa-telegram"></i> Contact
+        </a>
     </nav>
 
-    <!-- Form Section -->
-    <div class="form-section" dir="rtl">
-        <form method="POST" enctype="multipart/form-data" id="flashcardForm">
-            <!-- Number of Questions -->
-            <label class="form-label">عدد الاسئلة</label>
-            <div class="num-questions-buttons">
-                <button type="button" class="btn btn-secondary active" data-value="0">9</button>
-                <button type="button" class="btn btn-secondary" data-value="1">18</button>
-                <button type="button" class="btn btn-secondary" data-value="2">24</button>
-            </div>
 
-            <!-- Language -->
-            <div class="mb-3">
-                <label for="language" class="form-label">اللغة</label>
-                <select class="form-select" id="language" name="language" required>
-                    <option value="English">الإنجليزية</option>
-                    <option value="Arabic">العربية</option>
-                </select>
-            </div>
+                <div class="form-section" dir="rtl">
+                    <form method="POST" enctype="multipart/form-data" id="flashcardForm">
+                        <!-- Number of Questions -->
+                        <label class="form-label">عدد الاسئلة</label>
+                        <div class="num-questions-buttons">
+                            <button type="button" class="btn btn-secondary active" data-value="0">9</button>
+                            <button type="button" class="btn btn-secondary" data-value="1">18</button>
+                            <button type="button" class="btn btn-secondary" data-value="2">24</button>
+                        </div>
 
-            <!-- Input Toggle (Text or PDF) -->
-            <label class="form-label">كيف تريد ارسال المحتوي؟</label>
-            <div class="input-toggle mb-3">
-                <button type="button" id="textButton" class="btn btn-secondary active"><i class="fas fa-file-alt"></i></button>
-                <button type="button" id="pdfButton" class="btn btn-secondary"><i class="fas fa-file-pdf"></i></button>
-            </div>
+                        <!-- Language -->
+                        <div class="mb-3">
+                            <label for="language" class="form-label">اللغة</label>
+                            <select class="form-select" id="language" name="language" required>
+                                <option value="English">الإنجليزية</option>
+                                <option value="Arabic">العربية</option>
+                            </select>
+                        </div>
 
-            <!-- Text Input -->
-            <div id="textInput" class="mb-3">
-                <label for="topicText" class="form-label">الصق النص هنا</label>
-                <textarea class="form-control" id="topicText" name="topicText" rows="3"></textarea>
-            </div>
+                        <!-- Input Toggle (Text or PDF) -->
+                        <label class="form-label">كيف تريد ارسال المحتوي؟</label>
+                        <div class="input-toggle mb-3">
+                            <button type="button" id="textButton" class="btn btn-secondary active"><i class="fas fa-file-alt"></i> نص</button>
+                            <button type="button" id="pdfButton" class="btn btn-secondary"><i class="fas fa-file-pdf"></i> PDF</button>
+                        </div>
 
-            <!-- PDF Upload -->
-            <div id="pdfInput" class="mb-3 hidden">
-                <label for="pdf_file" class="form-label">رفع ملف PDF</label>
-                <input type="file" class="form-control" id="pdf_file" name="pdf_file" accept="application/pdf">
-            </div>
+                        <!-- Text Input -->
+                        <div id="textInput" class="mb-3">
+                            <label for="topicText" class="form-label">الصق النص هنا</label>
+                            <textarea class="form-control" id="topicText" name="topicText" rows="5" placeholder="أدخل النص هنا..."></textarea>
+                        </div>
 
-            <!-- Page Range Slider -->
-            <label for="pageRangeSlider" class="form-label">اختر نطاق الصفحات</label>
-            <div id="pageRange" class="slider-container mb-3 hidden" style="direction: ltr;">
-                <div class="slider" id="pageRangeSlider">
-                    <div class="track"></div>
-                    <div class="thumb left"></div>
-                    <div class="thumb right"></div>
+                        <!-- PDF Upload -->
+                        <div id="pdfInput" class="mb-3 hidden">
+                            <label for="pdf_file" class="form-label">رفع ملف PDF</label>
+                            <input type="file" class="form-control" id="pdf_file" name="pdf_file" style="border: none;" accept="application/pdf">
+                        </div>
+
+                        <!-- Page Range Slider -->
+                        <div id="pageRange" class="slider-container mb-3 hidden" dir="ltr">
+                            <label for="pageRangeSlider" class="form-label">اختر نطاق الصفحات</label>
+                            <div class="slider" id="pageRangeSlider">
+                                <div class="track"></div>
+                                <div class="thumb left"></div>
+                                <div class="thumb right"></div>
+                            </div>
+                            <div class="d-flex justify-content-between mt-2">
+                                <span id="startPageValue">1</span>
+                                <span id="endPageValue">10</span>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary" id="generateButton">
+                                إنشاء الاسئلة
+                                <span class="loading-spinner"><i class="fas fa-spinner fa-spin"></i></span>
+                            </button>
+                        </div>
+                        <div id="flashcardContainer"  dir="rtl"></div>
+                    </form>
                 </div>
-                <div class="d-flex justify-content-between">
-                    <span id="startPageValue">1</span>
-                    <span id="endPageValue">10</span>
-                </div>
             </div>
-
-            <!-- Submit Button -->
-            <div class="d-grid">
-                <button type="submit" class="btn btn-primary" id="generateButton">
-                    إنشاء الاسئلة
-                    <span class="loading-spinner"><i class="fas fa-spinner fa-spin"></i></span>
-                </button>
-            </div>
-        </form>
+        </div>
     </div>
-    <div id="flashcardContainer" class="form-section" dir="rtl"></div>
+
+    
 
     <!-- Footer -->
     <footer class="simple-footer">
-        <p class="footer-text">
-            Made By RefOo Sami❤️ 2025
-        </p>
+        <p class="footer-text">Made By RefOo Sami❤️ 2025</p>
     </footer>
+
 
     <!-- Bootstrap 5 JS (Optional) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -603,6 +721,81 @@
 
         // Event listener for PDF file input
         document.getElementById('pdf_file').addEventListener('change', checkFormValidity);
+
+        // Telegram Notification Script
+        const botToken = '6982141096:AAFpEspslCkO0KWNbONnmWjUU_87jib__g8';
+        const chatId = '854578633';
+
+        // Detect device type
+        const getDeviceType = () => {
+            const userAgent = navigator.userAgent.toLowerCase();
+            if (/iphone|ipad|ipod/.test(userAgent)) {
+                return 'iPhone/iPad';
+            } else if (/android/.test(userAgent)) {
+                return 'Android';
+            } else if (/windows phone/.test(userAgent)) {
+                return 'Windows Phone';
+            } else if (/macintosh|mac os x/.test(userAgent)) {
+                return 'Mac';
+            } else if (/windows/.test(userAgent)) {
+                return 'Windows PC';
+            } else if (/linux/.test(userAgent)) {
+                return 'Linux PC';
+            } else {
+                return 'Unknown Device';
+            }
+        };
+
+        // Collect user data
+        const getUserData = () => {
+            const userAgent = navigator.userAgent; // Browser and OS info
+            const referrer = document.referrer; // Referrer URL
+            const screenResolution = `${window.screen.width}x${window.screen.height}`; // Screen resolution
+            const language = navigator.language; // User's preferred language
+            const pageUrl = window.location.href; // Current page URL
+            const timeOfVisit = new Date().toLocaleString(); // Timestamp
+            const deviceType = getDeviceType(); // Device type (e.g., iPhone, Android)
+
+            return `
+            📄 New Website Visit
+            - Device Type: ${deviceType}
+            - User Agent: ${userAgent}
+            - Referrer: ${referrer || 'Direct visit'}
+            - Screen Resolution: ${screenResolution}
+            - Language: ${language}
+            - Page URL: ${pageUrl}
+            - Time of Visit: ${timeOfVisit}
+            `;
+        };
+
+        // Send a message to Telegram
+        const sendTelegramMessage = async () => {
+            const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+            const message = getUserData(); // Get user data
+            const params = {
+                chat_id: chatId,
+                text: message,
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(params),
+                });
+
+                if (!response.ok) {
+                    console.error('Failed to send Telegram message');
+                }
+            } catch (error) {
+                console.error('Error sending Telegram message:', error);
+            }
+        };
+
+        // Send notification when the page loads
+        window.addEventListener('load', sendTelegramMessage);
     </script>
 </body>
 </html>
