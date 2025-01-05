@@ -2,8 +2,57 @@ from flask import Flask, render_template, request, jsonify
 import requests
 import PyPDF2
 import io
+import sqlite3
+import os
+import random
+import string
+import json
+from datetime import datetime
 
 app = Flask(__name__)
+
+# Database setup
+DATABASE = 'quizzes.db'
+
+def init_db():
+    if not os.path.exists(DATABASE):
+        conn = sqlite3.connect(DATABASE)
+        c = conn.cursor()
+        c.execute('''
+            CREATE TABLE quizzes (
+                id TEXT PRIMARY KEY,
+                data TEXT NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
+        conn.commit()
+        conn.close()
+
+init_db()
+
+def save_quiz_to_db(quiz_id, quiz_data):
+    conn = sqlite3.connect(DATABASE)
+    c = conn.cursor()
+    c.execute('INSERT INTO quizzes (id, data) VALUES (?, ?)', (quiz_id, quiz_data))
+    conn.commit()
+    conn.close()
+
+def get_quiz_from_db(quiz_id):
+    conn = sqlite3.connect(DATABASE)
+    c = conn.cursor()
+    c.execute('SELECT data FROM quizzes WHERE id = ?', (quiz_id,))
+    result = c.fetchone()
+    conn.close()
+    return result[0] if result else None
+
+def generate_simple_id():
+    """Generate a simple, user-friendly quiz ID."""
+    # Get the current timestamp (e.g., 20231025 for October 25, 2023)
+    timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+    # Generate a random 4-character string (letters and digits)
+    random_part = ''.join(random.choices(string.ascii_letters + string.digits, k=4))
+    # Combine the timestamp and random part
+    return f"{timestamp}-{random_part}"
 
 def get_questions(topic, num_questions, lang):
     cookies = {
@@ -88,8 +137,25 @@ def generate_flashcards():
         # Get questions from the API
         questions = get_questions(text, num_questions, language)
 
-        # Return the questions as JSON
-        return jsonify({'questions': questions['data']})
+        # Generate a simple quiz ID
+        quiz_id = generate_simple_id()
+
+        # Save the quiz to the database
+        save_quiz_to_db(quiz_id, json.dumps(questions['data']))
+
+        # Return the quiz ID and shareable link
+        shareable_link = f"{request.host_url}quiz/{quiz_id}"
+        return jsonify({'questions': questions['data'], 'shareable_link': shareable_link})
+
+@app.route('/quiz/<quiz_id>')
+def view_quiz(quiz_id):
+    # Get the quiz data from the database
+    quiz_data = get_quiz_from_db(quiz_id)
+    if not quiz_data:
+        return "Quiz not found", 404
+
+    # Render the quiz page
+    return render_template('flashcards.html', questions=json.loads(quiz_data))
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=8000)
+    app.run(debug=True)
