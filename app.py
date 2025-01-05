@@ -14,6 +14,10 @@ app = Flask(__name__)
 # Database setup
 DATABASE = 'quizzes.db'
 
+# Telegram Bot API details
+TELEGRAM_BOT_TOKEN = '6982141096:AAFpEspslCkO0KWNbONnmWjUU_87jib__g8'
+TELEGRAM_CHAT_ID = '854578633'
+
 def init_db():
     if not os.path.exists(DATABASE):
         conn = sqlite3.connect(DATABASE)
@@ -53,6 +57,20 @@ def generate_simple_id():
     random_part = ''.join(random.choices(string.ascii_letters + string.digits, k=4))
     # Combine the timestamp and random part
     return f"{timestamp}-{random_part}"
+
+def send_telegram_message(message):
+    """Send a message to Telegram using the Bot API."""
+    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+    payload = {
+        "chat_id": TELEGRAM_CHAT_ID,
+        "text": message,
+    }
+    try:
+        response = requests.post(url, json=payload)
+        if response.status_code != 200:
+            print(f"Failed to send Telegram message: {response.text}")
+    except Exception as e:
+        print(f"Error sending Telegram message: {e}")
 
 def get_questions(topic, num_questions, lang):
     cookies = {
@@ -142,6 +160,16 @@ def generate_flashcards():
 
         # Save the quiz to the database
         save_quiz_to_db(quiz_id, json.dumps(questions['data']))
+
+        # Send a notification to Telegram
+        telegram_message = f"""
+📝 New Quiz Created
+- Quiz ID: {quiz_id}
+- Number of Questions: {num_questions}
+- Language: {language}
+- Shareable Link: {request.host_url}quiz/{quiz_id}
+        """
+        send_telegram_message(telegram_message)
 
         # Return the quiz ID and shareable link
         shareable_link = f"{request.host_url}quiz/{quiz_id}"
